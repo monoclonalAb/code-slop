@@ -1,0 +1,28 @@
+# Models are run through pi (https://pi.dev) using the OAuth logins in ~/.pi/agent/auth.json
+# (Claude subscription -> provider "anthropic", ChatGPT/Codex subscription -> "openai-codex").
+# Cost columns in results are computed at API list price by pi, for comparison only.
+#
+# List prices ($/M input, $/M output) as of pi 1.0.4, Oct 2026.
+
+models:
+  # --- Anthropic ---
+  opus-5.5:     {provider: anthropic,    id: claude-opus-5-5,   thinking: high}  # $4 / $20   primary
+  sonnet-5.5:   {provider: anthropic,    id: claude-sonnet-5-5, thinking: high}  # $2 / $10   cheap
+  fable-5.1:    {provider: anthropic,    id: claude-fable-5-1,  thinking: high}  # $10 / $50  top tier
+  # --- OpenAI ---
+  gpt-6.1-sol:  {provider: openai-codex, id: gpt-6.1-sol,       thinking: high}  # $2 / $10   primary (pi default)
+  gpt-6-astra:  {provider: openai-codex, id: gpt-6-astra,       thinking: high}  # $10 / $50  top tier
+  gpt-6-luna:   {provider: openai-codex, id: gpt-6-luna,        thinking: high}  # $0.1 / $0.5 cheap
+
+# auth: auto    -> use the API key env var if it is set, else the pi OAuth login
+#       oauth   -> always the pi OAuth login (~/.pi/agent/auth.json)
+#       api_key -> always the API key env var (billed per token)
+# NOTE (Oct 2026): Claude subscriptions bill third-party apps such as pi against "extra usage",
+# not plan limits. With no extra usage on the account, anthropic OAuth runs fail with HTTP 400.
+# Either add extra usage at claude.ai/settings/usage or export ANTHROPIC_API_KEY.
+#
+# refresh_model: cheap model used only to force an OAuth token refresh on the host
+# (so containers never refresh/rotate tokens mid-run).
+providers:
+  anthropic:    {auth: auto, api_key_env: ANTHROPIC_API_KEY, refresh_model: claude-haiku-4-5}
+  openai-codex: {auth: oauth, refresh_model: gpt-6-luna}

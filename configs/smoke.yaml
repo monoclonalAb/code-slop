@@ -1,0 +1,11 @@
+# End-to-end smoke test: one checkpoint, both providers, two arms.
+# 4 agent runs (~10-20 min). OpenAI via ChatGPT plan; Anthropic needs extra usage or an API key
+# (see configs/models.yaml).
+name: smoke
+models: [opus-5.5, gpt-6.1-sol]
+arms: [none, good_docs]
+seeds: [0]
+problems:
+  - {name: file_backup, start: 2, max_checkpoints: 1}
+timeout_minutes: 30
+jobs: 2

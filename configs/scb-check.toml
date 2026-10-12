@@ -1,0 +1,4 @@
+# Explicit, empty scb-check config. scb-check otherwise discovers [tool.ruff]/[tool.scb-check]
+# excludes from pyproject.toml files above the *working directory*, which makes scores depend on
+# where the tool is run from. Always pass this file via --config.
+exclude = []

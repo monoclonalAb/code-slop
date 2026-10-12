@@ -1,0 +1,14 @@
+# Pilot: does AGENTS.md / docs/ quality change how sloppy agent code is?
+# Latest flagship model from each provider × all six arms × 3 seeds.
+#
+# Add problems here once their good/good_docs material is authored (see arms/README.md).
+# file_backup: start from the checkpoint_2 reference solution, implement checkpoints 3 and 4.
+name: pilot
+models: [opus-5.5, gpt-6.1-sol]
+arms: [none, generic, autogen, good, good_docs, good_docs_maintained]
+seeds: [0, 1, 2]
+problems:
+  - {name: file_backup, start: 2}
+timeout_minutes: 60
+# Jobs run in parallel containers. Keep this modest: subscription rate limits apply per account.
+jobs: 3
